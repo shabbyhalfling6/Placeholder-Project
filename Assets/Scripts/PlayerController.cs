@@ -12,12 +12,14 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody playerRigidbody;
 
     public float moveSpeedIn = 0.5f;
-    public float moveSpeed = 1.0f;
+    private float moveSpeed = 1.0f;
     public float x = 0.02f;
 
     void Awake()
     {
         playerRigidbody = this.GetComponent<Rigidbody>();
+
+        moveSpeed = moveSpeedIn;
     }
 
     void FixedUpdate()
@@ -27,7 +29,7 @@ public class PlayerController : MonoBehaviour {
 
         if ((move.x > 0.1 || move.z > 0.1) || (move.x < 0.1 || move.z < 0.1))
         {
-            playerRigidbody.MovePosition(this.transform.position + move);
+            this.transform.position = new Vector3(this.transform.position.x + move.x, this.transform.position.y, this.transform.position.z + move.z);
             transform.LookAt(transform.position + move);
         }
     }

@@ -9,25 +9,27 @@ public class Rope : MonoBehaviour {
 
     public GameObject segment;
 
-    public List<GameObject> segments = new List<GameObject>();
+    public GameObject[] segments;
+
+    private LineRenderer ropeLine;
 
     public float offset = 0.2f;
 
     public float comp = 0.5f;
 
-	// Use this for initialization
 	void Start ()
     {
-        foreach (Transform child in this.transform)
+        ropeLine = this.GetComponent<LineRenderer>();
+
+        for (int i = 1; i < segments.Length; i++)
         {
-            segments.Add(child.gameObject);
+            ropeLine.SetPosition(i, segments[i].transform.position);
         }
 	}
 
-    // Update is called once per frame
     void Update()
     {
-        for (int i = 1; i < segments.Count; i++)
+        for (int i = 1; i < segments.Length; i++)
         {
             Vector3 delta = segments[i].transform.position - segments[i-1].transform.position;
             float deltaLength = delta.magnitude;
@@ -39,10 +41,10 @@ public class Rope : MonoBehaviour {
                 
                 pos1 -= delta * comp * diff;
                 pos2 += delta * comp * diff;
-                Debug.Log(pos1 + ", " + pos2);
                 segments[i].transform.position=pos1;
                 segments[i-1].transform.position=pos2;
             }
+            ropeLine.SetPosition(i-1, segments[i].transform.position);
         }
 	}
 
