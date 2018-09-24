@@ -25,17 +25,19 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
         move = GetInputVector(Input.GetAxis(horizontal), Input.GetAxis(vertical));
-        move = move.normalized * Mathf.Lerp(moveSpeedIn, moveSpeed, x) * Time.deltaTime;
+        move *= Mathf.Lerp(moveSpeedIn, moveSpeed, x) * Time.deltaTime;
 
-        if ((move.x > 0.1 || move.z > 0.1) || (move.x < 0.1 || move.z < 0.1))
-        {
-            this.transform.position = new Vector3(this.transform.position.x + move.x, this.transform.position.y, this.transform.position.z + move.z);
-            transform.LookAt(transform.position + move);
-        }
+        this.transform.position = Move();
+        transform.LookAt((this.transform.position + move));  
     }
 
     public Vector3 GetInputVector(float horizontalMove, float verticalMove)
     {
-        return new Vector3(horizontalMove, 90, -verticalMove);
+        return new Vector3(horizontalMove, 0.0f, -verticalMove);
+    }
+
+    public Vector3 Move ()
+    {
+        return new Vector3(this.transform.position.x + move.x, this.transform.position.y, this.transform.position.z + move.z);
     }
 }

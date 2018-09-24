@@ -11,7 +11,7 @@ public class Rope : MonoBehaviour {
 
     public GameObject[] segments;
 
-    private LineRenderer ropeLine;
+    //private LineRenderer ropeLine;
 
     public float offset = 0.2f;
 
@@ -19,12 +19,13 @@ public class Rope : MonoBehaviour {
 
 	void Start ()
     {
+        /*
         ropeLine = this.GetComponent<LineRenderer>();
 
         for (int i = 1; i < segments.Length; i++)
         {
             ropeLine.SetPosition(i, segments[i].transform.position);
-        }
+        }*/
 	}
 
     void Update()
@@ -35,16 +36,21 @@ public class Rope : MonoBehaviour {
             float deltaLength = delta.magnitude;
             if (deltaLength > 0)
             {
+                if (i == segments.Length)
+                {
+                    break;
+                }
+
                 float diff = (deltaLength - offset) / deltaLength;
                 Vector3 pos1 = segments[i].transform.position;
-                Vector3 pos2 = segments[i-1].transform.position;
-                
+                Vector3 pos2 = segments[i - 1].transform.position;
+
                 pos1 -= delta * comp * diff;
                 pos2 += delta * comp * diff;
-                segments[i].transform.position=pos1;
-                segments[i-1].transform.position=pos2;
+                segments[i].transform.position = pos1;
+                //segments[i-1].transform.position=pos2;
             }
-            ropeLine.SetPosition(i-1, segments[i].transform.position);
+            //ropeLine.SetPosition(i-1, segments[i].transform.position);
         }
 	}
 
